@@ -23,26 +23,17 @@ const createSchema = (filePath) => {
 }
   const getSchema = (filePath) => {
     const parsedSchema = createSchema(filePath);
-    console.log(parsedSchema);
+    const testInstance = testSchema(filePath);
     return (request, response) => {
       response.set('Content-Type', 'text/html');
-      response.status(200).json({ filePath, schema: parsedSchema});
+      response.status(200).json({ testInstance: testInstance, schema: parsedSchema});
     }
   }
 
-// const getSchema = (filePath) => {
-//   const parsedSchema = createSchema(filePath)
-//   console.log(parsedSchema)
-//   return (request, response) => {
-//     response.set('Content-Type', 'text/html')
-//     response.status(200).json({ schema: parsedSchema })
-//   }
-// }
-
 const testSchema = (filePath) => {
-  const parsedSchema = fs.readFileSync((filePath), { encoding: 'utf-8' })
-  const testInstance = new EasyGraphQLTester(parsedSchema)
-  return testInstance
+  const parsedSchema = fs.readFileSync((filePath), { encoding: 'utf-8' });
+  const testInstance = new EasyGraphQLTester(parsedSchema);
+  return testInstance;
 }
 
-module.exports = { config, getSchema, extension, testSchema }
+module.exports = { config, getSchema, extension };
